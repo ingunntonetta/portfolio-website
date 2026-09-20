@@ -57,9 +57,31 @@ div[data-testid="stPills"] > div {
     gap: 8px;
 }
 
-/* Make all project images the same height and centered */
+/* Hide all video controls */
+video::-webkit-media-controls {
+    display: none !important;
+}
+video::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+video::-webkit-media-controls-panel {
+    display: none !important;
+}
+video {
+    pointer-events: none !important;
+}
+
+/* Make project boxes wider */
+.wider-projects {
+    max-width: 1400px !important;
+    margin: 0 auto;
+}
+
+/* Target all images on the projects page directly */
 [data-testid="stImage"] {
     height: 200px !important;
+    min-height: 200px !important;
+    max-height: 200px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -67,10 +89,24 @@ div[data-testid="stPills"] > div {
 }
 
 [data-testid="stImage"] img {
+    height: 200px !important;
     max-height: 200px !important;
-    width: 100% !important;
+    width: auto !important;
+    max-width: 100% !important;
     object-fit: contain !important;
     object-position: center !important;
+}
+
+/* Fix video height too */
+video {
+    height: 200px !important;
+    max-height: 200px !important;
+    object-fit: contain !important;
+}
+
+/* Force all bordered containers to same minimum height */
+div[style*="border"] {
+    min-height: 520px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -98,6 +134,7 @@ else:
 
 
 # Display two projects per row
+st.markdown('<div class="wider-projects">', unsafe_allow_html=True)
 for i in range(0, len(filtered_projects), 2):
 
     col1, col2 = st.columns(2)
@@ -136,5 +173,7 @@ for i in range(0, len(filtered_projects), 2):
                     project["github"],
                     use_container_width=True
                 )
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 footer()
